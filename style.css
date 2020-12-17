@@ -17,7 +17,7 @@ h1{
 }
 
 *{
-    font: "seoge", Times, serif;
+    
     margin: 0;
     padding: 0;
     box-shadow: none;
@@ -28,6 +28,7 @@ html{
 }
 
 body{
+    background-color: #ffffff;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -35,7 +36,7 @@ body{
     justify-content: space-around;
 }
 
-section{
+#acceuil{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,22 +52,34 @@ ul{
     display: flex;
     
 }
+#jeu{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
 
 ul li {
-    background-color: #FCFCFC;
+   
+}
+
+ul li button{
+    border: none;
+    text-transform: capitalize;
+    color:#545454 ;
+    font-family: "seoge", Times, serif;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #fcfcfc;
     display: flex;
     justify-content: center;
     align-items: center;
     height:78px;
     width: 333px;
     border-radius: 7px;
-    box-shadow: 0px 3px 6px #545454;
+    box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.30) ;
 }
 
-ul li a{
-    text-transform: capitalize;
-    color:#545454 ;
-    font-family: "seoge", Times, serif;
-    font-size: 30px;
-    font-weight: bold;
+ul li button:hover{
+    box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.60) ;
 }
+
