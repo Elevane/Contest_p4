@@ -15,6 +15,9 @@ h1{
     font-size: 150px;
     
 }
+h2{
+    text-transform: capitalize;
+}
 
 *{
     
@@ -28,6 +31,8 @@ html{
 }
 
 body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #545454;
     background-color: #ffffff;
     height: 100%;
     display: flex;
@@ -52,21 +57,55 @@ ul{
     display: flex;
     
 }
-#jeu{
-    width: 80%;
+#sectionjeu{
+    width: 70%;
+    height: 70%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#jeu{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: space-around;
 }
 
-ul li {
-   
+#jeu canvas{
+    width: 60%;
+    background-color: #fcfcfc;
+    box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
+}
+#jeu article{
+    width: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
-ul li button{
+
+button{
     border: none;
     text-transform: capitalize;
     color:#545454 ;
-    font-family: "seoge", Times, serif;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #fcfcfc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:43px;
+    width: 184px;
+    border-radius: 7px;
+    box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.30) ;
+}
+
+
+ul li a{
+    border: none;
+    text-transform: capitalize;
+    color:#545454 ;
     font-size: 30px;
     font-weight: bold;
     background-color: #fcfcfc;
@@ -79,7 +118,7 @@ ul li button{
     box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.30) ;
 }
 
-ul li button:hover{
+ul li a:hover, button:hover{
     box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.60) ;
 }
 
