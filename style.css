@@ -1,0 +1,72 @@
+
+@font-face {
+    font-family: "machine";
+    src: url("font/MachineGunk-nyqg.ttf");
+  }
+  @font-face {
+    font-family: "seoge";
+    src: url("font/Segoe\ UI.ttf");
+  }
+
+h1{
+    font-weight: lighter;
+    font-family: "machine", Times, serif;
+    color: #545454;
+    font-size: 150px;
+    
+}
+
+*{
+    font: "seoge", Times, serif;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:300px;
+    list-style: none;
+    display: flex;
+    
+}
+
+ul li {
+    background-color: #FCFCFC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:78px;
+    width: 333px;
+    border-radius: 7px;
+    box-shadow: 0px 3px 6px #545454;
+}
+
+ul li a{
+    text-transform: capitalize;
+    color:#545454 ;
+    font-family: "seoge", Times, serif;
+    font-size: 30px;
+    font-weight: bold;
+}
