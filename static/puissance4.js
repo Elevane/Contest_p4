@@ -1,3 +1,4 @@
+let p4;
 class Puissance4 {
 
   constructor() {
@@ -8,19 +9,27 @@ class Puissance4 {
     // On met en place le nombre de tour
     this.turn = 1;
 
+    // On désigne celui qui commence la partie
+    this.starter = Math.round(Math.random());
+    const player = (this.turn - this.starter) % 2 + 1
+    $('span#player-coin-' + player).show();
+
     // On met en place une variable qui stockera l'utilisateur gagnant
     this.winner = null;
 
     // On construit un tableau de tableau contenant this.rows de rangées chacune ayant this.cols colonnes
-    this.grid = []
+    this.grid = [];
     for(let r = 0; r < this.rows; r++) {
-      this.grid[r] = Array(this.cols).fill(null)
+      this.grid[r] = Array(this.cols).fill(null);
     }
 
     // A chaque clic sur le tableau, la fonction handleClick se lance
     self = this;
     $('table#puissance4').on('click', function (event) {
-      self.handleClick(event)
+      self.handleClick(event);
+    })
+    $('button.reset').on('click', function () {
+      self.resetGrid();
     })
 
     this.setGrid();
@@ -37,7 +46,31 @@ class Puissance4 {
     }
     // On vide l'élement puis on le recrée
     $('table#puissance4').empty().append(tabContent)
+  }
 
+  resetGrid() {
+    $('a#main-title').text('Puissance 4')
+    $('button#reset-grid').hide();
+
+    this.turn = 1;
+    this.winner = null;
+
+    this.starter = Math.round(Math.random());
+    const player = (this.turn - this.starter) % 2 + 1
+    $("span[id^='player-coin-']").hide()
+    $('span#player-coin-' + player).show()
+
+    this.grid = [];
+    for(let r = 0; r < this.rows; r++) {
+      this.grid[r] = Array(this.cols).fill(null)
+    }
+
+    self = this;
+    $('table#puissance4').on('click', function (event) {
+      self.handleClick(event);
+    })
+
+    this.setGrid();
   }
 
   handleClick(event) {
@@ -52,13 +85,18 @@ class Puissance4 {
         let result = this.checkLines(reached_row, selected_col)
         if (result) {
           this.winner = this.turn % 2 + 1;
-          $('table#puissance4').off('click')
-        } else if (this.turn === this.rows * this.cols) {
+        } else if ((this.turn - 1) === this.rows * this.cols) {
           this.winner = 0;
-          $('table#puissance4').off('click')
         }
+
         // Si l'action d'ajouter une pièce a été validé, on reconstruit la grille
         this.setGrid();
+
+        if (this.winner || this.winner === 0) {
+          $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
+          $('table#puissance4').off('click')
+          $('button#reset-grid').show();
+        }
       }
     }
   }
@@ -79,23 +117,32 @@ class Puissance4 {
   }
 
   placePiece(row, col) {
-    this.grid[row][col] = this.turn % 2 + 1;
+    const player = (this.turn - this.starter) % 2 + 1
+    this.grid[row][col] = player;
     this.turn++;
+
+    // On indique quel utilisateur doit jouer avec des éléments graphiques
+    $("span[id^='player-coin-']").show()
+    $('span#player-coin-' + player).hide()
   }
 
   checkLines(row, col) {
+    // On récupère le joueur qui a joué au tour précédent (le joueur qui vient juste de se faire valider son placement)
+    // Voir placePiece() où on incrémente les tours avant d'effectuer plus tard cette fonction
+    const player = ((this.turn - this.starter) + 1) % 2 + 1
+
     // On va tester dans toutes les directions à partir de la dernière pièce posée si une ligne a été complété
     // Horizontal
     let count = 0;
     for (let c = 0; c < this.cols; c++) {
-      (this.grid[row][c] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      (this.grid[row][c] === player) ? count++ : count = 0;
       if (count === 4) return true
     }
 
     // Vertical
     count = 0;
     for (let r = 0; r < this.rows; r++) {
-      (this.grid[r][col] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      (this.grid[r][col] === player) ? count++ : count = 0;
       if (count === 4) return true
     }
 
@@ -107,7 +154,7 @@ class Puissance4 {
     // On parcours en escalier la grille à partir de la base de la diagonale en X (baseRow)
     for (let d = baseRow; d < this.rows; d++) {
       // Pour chaque itération, on décale l'escalier d'une colonne en Y (baseCol)
-      (this.grid[d][d + baseCol] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      (this.grid[d][d + baseCol] === player) ? count++ : count = 0;
       if (count === 4) return true
     }
 
@@ -117,7 +164,7 @@ class Puissance4 {
     baseRow = row + col < this.rows - 1 ? row + col : this.rows - 1;
     baseCol = col + row;
     for (let d = baseRow; d >= 0; d--) {
-      (this.grid[d][baseCol - d] === (this.turn + 1) % 2 + 1) ? count++ : count = 0
+      (this.grid[d][baseCol - d] === player) ? count++ : count = 0
       if (count === 4) return true
     }
 
@@ -125,4 +172,4 @@ class Puissance4 {
   }
 }
 
-const p4 = new Puissance4();
+p4 = new Puissance4();

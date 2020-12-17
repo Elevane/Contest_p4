@@ -8,7 +8,7 @@
 </head>
 <body>
 <header>
-    <h1><a href="Acceuil.html">puissance 4</a></h1>
+    <h1 style="cursor: pointer"><a id="main-title" routeid="accueil">puissance 4</a></h1>
 </header>
 
 <section id="accueil">
@@ -31,16 +31,23 @@
 
     <article id="jeu">
         <article>
-            <h2 id="p1">player 1 <span></span></h2>
+            <h2 id="p1">player 1</h2>
+            <span id="player-coin-1" class="player-1"></span>
         </article>
 
         <table id="puissance4"></table>
 
         <article>
-            <h2 id="p2">player 2<span></span></h2>
+            <h2 id="p2">player 2</h2>
+            <span id="player-coin-2" class="player-2"></span>
         </article>
+
     </article>
-    <button routeid="accueil">Abandon</button>
+    <div>
+        <button class="reset" routeid="accueil">Abandon</button>
+        <button class="reset" id="reset-grid" style="display: none">Rejouer</button>
+    </div>
+
 </section>
 
 <section id="scores" style="display: none;">
