@@ -1,199 +1,126 @@
-/***
-
-  Solution du TD http://defeo.lu/aws/tutorials/tutorial2
-  
- **/
-
 class Puissance4 {
-    /*
-      Intialise un plateau de jeu de dimensions `rows` × `cols` (par défaut 6×7),
-      et fait l'affichage dans l'élément `element_id` du DOM.
-     */
-    constructor(element_id, rows=6, cols=7) {
-      // Nombre de lignes et de colonnes
-      this.rows = rows;
-      this.cols = cols;
-        // cet tableau à deux dimensions contient l'état du jeu:
-      //   0: case vide
-      //   1: pion du joueur 1
-      //   2: pion du joueur 2
-      this.board = Array(this.rows);
-      for (let i = 0; i < this.rows; i++) {
-        this.board[i] = Array(this.cols).fill(0);
-      }
-      // un entier: 1 ou 2 (le numéro du prochain joueur)
-      this.turn = 1;
-      // Nombre de coups joués
-      this.moves = 0;
-      /* un entier indiquant le gagnant:
-          null: la partie continue
-             0: la partie est nulle
-             1: joueur 1 a gagné
-             2: joueur 2 a gagné
-      */
-      this.winner = null;
-  
-      // L'élément du DOM où se fait l'affichage
-      this.element = document.querySelector(element_id);
-      // On ajoute le gestionnaire d'événements pour gérer le click
-      //
-      // Pour des raisons techniques, il est nécessaire de passer comme gestionnaire
-      // une fonction anonyme faisant appel à `this.handle_click`. Passer directement
-      // `this.handle_click` comme gestionnaire, sans wrapping, rendrait le mot clef
-      // `this` inutilisable dans le gestionnaire. Voir le "binding de this".
-      this.element.addEventListener('click', (event) => this.handle_click(event));
-      // On fait l'affichage
-      this.render();
+
+  constructor() {
+    // On met en place le nombre de lignes et de colonnes de la grille
+    this.rows = 6;
+    this.cols = 7;
+
+    // On met en place le nombre de tour
+    this.turn = 1;
+
+    // On met en place une variable qui stockera l'utilisateur gagnant
+    this.winner = null;
+
+    // On construit un tableau de tableau contenant this.rows de rangées chacune ayant this.cols colonnes
+    this.grid = []
+    for(let r = 0; r < this.rows; r++) {
+      this.grid[r] = Array(this.cols).fill(null)
     }
-    
-    /* Affiche le plateau de jeu dans le DOM */
-    render() {
-      let table = document.createElement('table');
-      //ATTENTION, la page html est écrite de haut en bas. Les indices 
-      //pour le jeu vont de bas en haut (compteur i de la boucle)
-      for (let i = this.rows - 1; i >= 0; i--) {
-        let tr = table.appendChild(document.createElement('tr'));
-        for (let j = 0; j < this.cols; j++) {
-          let td = tr.appendChild(document.createElement('td'));
-          let colour = this.board[i][j];
-          if (colour)
-            td.className = 'player' + colour;
-          td.dataset.column = j;
-        }
-      }
-      this.element.innerHTML = '';
-      this.element.appendChild(table);
-    }
-    
-      set(row, column, player) {
-      // On colore la case
-        this.board[row][column] = player;
-      // On compte le coup
-      this.moves++;
-      }
-  
-    /* Cette fonction ajoute un pion dans une colonne */
-      play(column) {
-      // Trouver la première case libre dans la colonne
-      let row;
-      for (let i = 0; i < this.rows; i++) {
-        if (this.board[i][column] == 0) {
-          row = i;
-          break;
-        }
-      }
-      if (row === undefined) {
-        return null;
-      } else {
-        // Effectuer le coup
-        this.set(row, column, this.turn);
-        // Renvoyer la ligne où on a joué
-        return row;
-      }
-      }
-    
-    handle_click(event) {
-      // Vérifier si la partie est encore en cours
-      if (this.winner !== null) {
-            if (window.confirm("Game over!\n\nDo you want to restart?")) {
-                this.reset();
-          this.render();
-              }
-              return;
-      }
-  
-        let column = event.target.dataset.column;
-        if (column !== undefined) {
-        //attention, les variables dans les datasets sont TOUJOURS 
-        //des chaînes de caractères. Si on veut être sûr de ne pas faire de bêtise,
-        //il vaut mieux la convertir en entier avec parseInt
-        column = parseInt(column);
-           let row = this.play(parseInt(column));
-        
-        if (row === null) {
-          window.alert("Column is full!");
-        } else {
-          // Vérifier s'il y a un gagnant, ou si la partie est finie
-          if (this.win(row, column, this.turn)) {
-            this.winner = this.turn;
-          } else if (this.moves >= this.rows * this.columns) {
-            this.winner = 0;
-          }
-          // Passer le tour : 3 - 2 = 1, 3 - 1 = 2
-          this.turn = 3 - this.turn;
-  
-          // Mettre à jour l'affichage
-          this.render()
-          
-          //Au cours de l'affichage, pensez eventuellement, à afficher un 
-          //message si la partie est finie...
-          switch (this.winner) {
-            case 0: 
-              window.alert("Null game!!"); 
-              break;
-            case 1:
-              window.alert("Player 1 wins"); 
-              break;
-            case 2:
-              window.alert("Player 2 wins"); 
-              break;
-          }
-        }
-      }
-    }
-  
-    /* 
-     Cette fonction vérifie si le coup dans la case `row`, `column` par
-     le joueur `player` est un coup gagnant.
-     
-     Renvoie :
-       true  : si la partie est gagnée par le joueur `player`
-       false : si la partie continue
-   */
-      win(row, column, player) {
-          // Horizontal
-      let count = 0;
-      for (let j = 0; j < this.cols; j++) {
-        count = (this.board[row][j] == player) ? count+1 : 0;
-        if (count >= 4) return true;
-      }
-          // Vertical
-      count = 0;
-      for (let i = 0; i < this.rows; i++) {
-        count = (this.board[i][column] == player) ? count+1 : 0;
-          if (count >= 4) return true;
-      }
-          // Diagonal
-      count = 0;
-      let shift = row - column;
-      for (let i = Math.max(shift, 0); i < Math.min(this.rows, this.cols + shift); i++) {
-        count = (this.board[i][i - shift] == player) ? count+1 : 0;
-          if (count >= 4) return true;
-      }
-          // Anti-diagonal
-      count = 0;
-      shift = row + column;
-      for (let i = Math.max(shift - this.cols + 1, 0); i < Math.min(this.rows, shift + 1); i++) {
-        console.log(i,shift-i,shift)
-        count = (this.board[i][shift - i] == player) ? count+1 : 0;
-        if (count >= 4) return true;
-      }
-      
-      return false;
-      }
-  
-    // Cette fonction vide le plateau et remet à zéro l'état
-    reset() {
-      for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.cols; j++) {
-          this.board[i][j] = 0;
-        }
-      }
-          this.move = 0;
-      this.winner = null;
-      }
+
+    // A chaque clic sur le tableau, la fonction handleClick se lance
+    self = this;
+    $('table#puissance4').on('click', function (event) {
+      self.handleClick(event)
+    })
+
+    this.setGrid();
   }
-  
-  // On initialise le plateau et on visualise dans le DOM
-  // (dans la balise d'identifiant `game`).
-  let p4 = new Puissance4('#puissance4');
+
+  setGrid() {
+    let tabContent = ''
+    for (let r = this.rows - 1; r >= 0; r--) {
+      tabContent += '<tr>'
+      for (let c = 0; c <= this.cols - 1; c++) {
+        tabContent += '<td col="' + c + '" class="player'+ this.grid[r][c] +'"></td>'
+      }
+      tabContent += '</tr>'
+    }
+    // On vide l'élement puis on le recrée
+    $('table#puissance4').empty().append(tabContent)
+
+  }
+
+  handleClick(event) {
+    if (event.target.attributes.col) {
+      const selected_col = parseInt(event.target.attributes.col.value)
+      let reached_row = this.getMouvement(selected_col)
+      if (reached_row === null) {
+        $('h3.full-column').show();
+      } else {
+        $('h3.full-column').hide();
+        // On vérifie si une ligne a été complété
+        let result = this.checkLines(reached_row, selected_col)
+        if (result) {
+          this.winner = this.turn % 2 + 1;
+          $('table#puissance4').off('click')
+        } else if (this.turn === this.rows * this.cols) {
+          this.winner = 0;
+          $('table#puissance4').off('click')
+        }
+        // Si l'action d'ajouter une pièce a été validé, on reconstruit la grille
+        this.setGrid();
+      }
+    }
+  }
+
+  getMouvement(col) {
+    let reached_row = null;
+    for(let r = 0; r < this.rows; r++) {
+      if (this.grid[r][col] === null) {
+        reached_row = r
+        break;
+      }
+    }
+    if (reached_row !== null) {
+      this.placePiece(reached_row, col)
+      return reached_row;
+    }
+    return null;
+  }
+
+  placePiece(row, col) {
+    this.grid[row][col] = this.turn % 2 + 1;
+    this.turn++;
+  }
+
+  checkLines(row, col) {
+    // On va tester dans toutes les directions à partir de la dernière pièce posée si une ligne a été complété
+    // Horizontal
+    let count = 0;
+    for (let c = 0; c < this.cols; c++) {
+      (this.grid[row][c] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      if (count === 4) return true
+    }
+
+    // Vertical
+    count = 0;
+    for (let r = 0; r < this.rows; r++) {
+      (this.grid[r][col] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      if (count === 4) return true
+    }
+
+    // Diagonale (gauche-droite)
+    // On détermine la base de la diagonale en X et Y selon les coordonnées de la dernière pièce ajoutée
+    let baseRow = row - col > 0 ? row - col : 0;
+    let baseCol = col - row;
+    // On parcours en escalier la grille à partir de la base de la diagonale en X (baseRow)
+    for (let d = baseRow; d < this.rows; d++) {
+      // Pour chaque itération, on décale l'escalier d'une colonne en Y (baseCol)
+      (this.grid[d][d + baseCol] === (this.turn + 1) % 2 + 1) ? count++ : count = 0;
+      if (count === 4) return true
+    }
+
+    // Diagonale inversée
+    // Même chose que pour une diagonale mais parcours de l'escalier inversé
+    baseRow = row + col < this.rows - 1 ? row + col : this.rows - 1;
+    baseCol = col + row;
+    for (let d = baseRow; d >= 0; d--) {
+      (this.grid[d][baseCol - d] === (this.turn + 1) % 2 + 1) ? count++ : count = 0
+      if (count === 4) return true
+    }
+
+    return false;
+  }
+}
+
+const p4 = new Puissance4();
