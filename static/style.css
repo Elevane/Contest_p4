@@ -25,7 +25,6 @@ h2{
 }
 
 *{
-
     margin: 0;
     padding: 0;
     box-shadow: none;
@@ -60,9 +59,8 @@ ul{
     height:300px;
     list-style: none;
     display: flex;
-
 }
-#sectionjeu{
+#multiplayer{
     width: 70%;
     height: 70%;
     display: flex;
@@ -85,7 +83,7 @@ ul{
     justify-content: center;
 }
 
-#score{
+#scores{
     width: 100%;
     height: 100%;
     display: flex;
@@ -93,7 +91,7 @@ ul{
     flex-direction: column;
     justify-content: space-around;
 }
-#score div{
+#scores div{
     display:flex;
     justify-content: space-between;
     width: 30%;
@@ -104,7 +102,7 @@ ul{
     background-color: #fcfcfc;
     box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
 }
-table{
+#scores table{
     margin-top: 10px;
     width: 100%;
     height: 100%;
@@ -113,23 +111,24 @@ table{
     align-items: center;
 
 }
-thead{
+#scores thead{
     border-bottom: 2px solid #545454;
     height:8%;
 }
-table thead, tbody{
+#scores table thead, tbody{
     width:80%;
 }
-tbody{
+
+#scores tbody{
     padding-top: 5px;
 }
 
- tr{
+#scores tr{
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
-thead th{
+#scores thead th{
     font-size: 30px;
 }
 
@@ -138,20 +137,24 @@ thead th{
     text-decoration: none;
     font-size: 18px;
 }
-#jeu table{
+#jeu #puissance4 table{
     height: 100%;
-    width: 60%;
+    width: 100%;
     background-color: #fcfcfc;
     box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
 }
 
-#jeu table tr {
+#jeu #puissance4  table tr {
     width: 100%;
     height: 16.6%;
 }
+#puissance4 {
+    height: 100%;
+    width: 50%;
+}
 
-#jeu table td {
-    border: 1px solid black;
+#jeu #puissance4  table td {
+    box-shadow: 0px 3px 6px rgb(0, 0,0, 0.30);
 }
 
 #credits a{
@@ -198,4 +201,29 @@ ul li a{
 ul li a:hover, button:hover{
     box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.60) ;
 }
+
+#puissance4 table {
+    padding: 5px;
+    background-color: #fcfcfc;
+}
+#puissance4 table td {
+    height: 2cm;
+    width: 2cm;
+    margin: 0px;
+    padding: 0px;
+    border: 2px transparent inset;
+    border-radius: 2cm;
+    background-color: white;
+    cursor: pointer;
+}
+#puissance4 td.player1 {
+    background-color: #FF0000ed;
+    box-shadow: 0px 3px 6px rgb(255, 0,0, 0.30);
+
+}
+#puissance4 td.player2 {
+    background-color: #FFCC00;
+    box-shadow: 0px 3px 6px rgb(255, 204,0, 0.30);
+}
+
 
