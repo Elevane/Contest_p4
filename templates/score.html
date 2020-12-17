@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section id="scores">
+    <article id="scoretable">
+        <table>
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <th>{{score.name}} </th>
+                    <th>{{score.score}}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </article>
+
+    <div>
+        <a class="button"  href="{{ '/'}}">play again</a>
+        <a class="button"  href="{{ '/credits' }}">credits</a>
+    </div>
+ </section>
+{% endblock %}
+
+

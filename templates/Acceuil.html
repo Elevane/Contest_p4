@@ -1,95 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/style.css">
-    <title>Document</title>
-</head>
-<body>
-    <header>
-        <h1><a href="Acceuil.html">puissance 4</a></h1>
-    </header>
+{% extends "base.html" %}
+{% block content %}
+ 
 
     <section id="accueil">
         <ul>
-            <li routeid="singleplayer">
-                <a class="btnAcceuil">one player</a>
+            <li>
+                <a href="{{ '/jeu' }}">one player</a>
             </li>
-            <li routeid="multiplayer">
-                <a class="btnAcceuil">multi player</a>
+            <li >
+                <a href="{{ '/jeu' }}">multi player</a>
             </li>
-            <li routeid="scores">
-                <a class="btnAcceuil">scores</a>
+            <li>
+                <a href="{{ '/scores' }}">scores</a>
             </li>
         </ul>
     </section>
 
-<section id="multiplayer" style="display: none;">
 
-    <article id="jeu">
-        <article>
-            <h2 id="p1">player 1 <span></span></h2>
-        </article>
+ {% endblock %}
 
-        <table id="puissance4">
-
-        </table>
-
-        <article>
-            <h2 id="p2">player 2<span></span></h2>
-        </article>
-    </article>
-    <button routeid="accueil">Abandon</button>
- </section>
-
- <section id="scores" style="display: none;">
-    <article id="scoretable">
-        <table>
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>test  </th>
-                    <th>10</th>
-                </tr>
-                <tr>
-                    <th>test  </th>
-                    <th>10</th>
-                </tr>
-                <tr>
-                    <th>test  </th>
-                    <th>10</th>
-                </tr>
-                <tr>
-                    <th>test  </th>
-                    <th>10</th>
-                </tr>
-
-            </tbody>
-        </table>
-    </article>
-
-    <div>
-        <button routeid="accueil">play again</button>
-        <button routeid="credits">credits</button>
-    </div>
- </section>
-
- <section id="credits" style="display: none;">
-    <h2>A game made by :
-        <a href="github">CLAVIER Eliott</a>
-        and
-        <a href="github">AUBRY Bastien</a>
-    </h2>
- </section>
-
-    <script src="../static/plugins/jquery/jquery-3.5.1.js" type="text/javascript"></script>
-    <script src="../static/routes.js" type="text/javascript"></script>
-    <script src="../static/puissance4.js" type="text/javascript"></script>
-</body>
-</html>
