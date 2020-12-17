@@ -101,6 +101,7 @@ class Puissance4 {
 
     // Diagonale (gauche-droite)
     // On détermine la base de la diagonale en X et Y selon les coordonnées de la dernière pièce ajoutée
+    count = 0;
     let baseRow = row - col > 0 ? row - col : 0;
     let baseCol = col - row;
     // On parcours en escalier la grille à partir de la base de la diagonale en X (baseRow)
@@ -112,6 +113,7 @@ class Puissance4 {
 
     // Diagonale inversée
     // Même chose que pour une diagonale mais parcours de l'escalier inversé
+    count = 0;
     baseRow = row + col < this.rows - 1 ? row + col : this.rows - 1;
     baseCol = col + row;
     for (let d = baseRow; d >= 0; d--) {
