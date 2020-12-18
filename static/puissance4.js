@@ -1,7 +1,8 @@
-let p4;
 class Puissance4 {
 
-  constructor() {
+  constructor(ai = false) {
+    this.ai = ai;
+
     // On met en place le nombre de lignes et de colonnes de la grille
     this.rows = 6;
     this.cols = 7;
@@ -24,15 +25,15 @@ class Puissance4 {
     }
 
     // A chaque clic sur le tableau, la fonction handleClick se lance
-    self = this;
-    $('table#puissance4').on('click', function (event) {
-      self.handleClick(event);
-    })
-    $('button.reset').on('click', function () {
+    this.recoverClick();
+
+    $('button.reset').on('click', function (e) {
       self.resetGrid();
     })
 
     this.setGrid();
+
+    this.ai ? this.playAI() : null
   }
 
   setGrid() {
@@ -65,16 +66,14 @@ class Puissance4 {
       this.grid[r] = Array(this.cols).fill(null)
     }
 
-    self = this;
-    $('table#puissance4').on('click', function (event) {
-      self.handleClick(event);
-    })
-
+    this.recoverClick();
     this.setGrid();
+
+    this.ai ? this.playAI() : null
   }
 
   handleClick(event) {
-    if (event.target.attributes.col) {
+    if (event.target.attributes.col && !this.winner) {
       const selected_col = parseInt(event.target.attributes.col.value)
       let reached_row = this.getMouvement(selected_col)
       if (reached_row === null) {
@@ -82,23 +81,31 @@ class Puissance4 {
       } else {
         $('h3.full-column').hide();
         // On vérifie si une ligne a été complété
-        let result = this.checkLines(reached_row, selected_col)
-        if (result) {
-          this.winner = this.turn % 2 + 1;
-        } else if ((this.turn - 1) === this.rows * this.cols) {
-          this.winner = 0;
-        }
+        this.determineWinner(reached_row, selected_col)
 
-        // Si l'action d'ajouter une pièce a été validé, on reconstruit la grille
-        this.setGrid();
-
-        if (this.winner || this.winner === 0) {
-          $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
-          $('table#puissance4').off('click')
-          $('button#reset-grid').show();
-        }
+        this.ai ? this.playAI() : null;
       }
     }
+  }
+
+  playAI() {
+    if ((this.turn - this.starter) % 2 === 0) {
+
+      let reached_row = null;
+      let random;
+      while (reached_row === null) {
+        random = Math.floor(Math.random() * this.cols)
+        reached_row = this.getMouvement(random)
+      }
+      this.determineWinner(reached_row, random)
+    }
+  }
+
+  recoverClick() {
+    self = this;
+    $('table#puissance4').on('click', function (event) {
+      self.handleClick(event);
+    })
   }
 
   getMouvement(col) {
@@ -126,11 +133,28 @@ class Puissance4 {
     $('span#player-coin-' + player).hide()
   }
 
+  determineWinner(row, col) {
+    let result = this.checkLines(row, col)
+    if (result) {
+      this.winner = (this.turn - 1 - this.starter) % 2 + 1
+    } else if ((this.turn - 1) === this.rows * this.cols) {
+      this.winner = 0;
+    }
+
+    // Si l'action d'ajouter une pièce a été validé, on reconstruit la grille
+    this.setGrid();
+
+    if (this.winner || this.winner === 0) {
+      $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
+      $('table#puissance4').off('click')
+      $('button#reset-grid').show();
+    }
+  }
+
   checkLines(row, col) {
     // On récupère le joueur qui a joué au tour précédent (le joueur qui vient juste de se faire valider son placement)
     // Voir placePiece() où on incrémente les tours avant d'effectuer plus tard cette fonction
     const player = ((this.turn - this.starter) + 1) % 2 + 1
-
     // On va tester dans toutes les directions à partir de la dernière pièce posée si une ligne a été complété
     // Horizontal
     let count = 0;
@@ -172,4 +196,6 @@ class Puissance4 {
   }
 }
 
-p4 = new Puissance4();
+
+  let p4 = new Puissance4(true);
+

@@ -20,9 +20,13 @@ if os.stat("data.json").st_size == 0:
 def acceuil():
     return  render_template('Acceuil.html')
 
-@app.route('/jeu')
-def jeu():
-    return  render_template('jeu.html')
+@app.route('/single')
+def single():
+    return  render_template('single.html')
+
+@app.route('/multiplayer')
+def multiplayer():
+    return  render_template('multiplayer.html')
 
 @app.route('/scores')
 def score():
