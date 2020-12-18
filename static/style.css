@@ -32,10 +32,11 @@ h3{
     font-size: 30px;
 }
 
-#pname{
+#pname, #pname1, #pname2{
     margin-top: 30px;
     padding: 10px;
 }
+
 *{
     margin: 0;
     padding: 0;
@@ -87,6 +88,12 @@ ul{
     justify-content: space-around;
 }
 
+#single div, #multiplayer div{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    
+}
 
 #jeu article{
     width: 10%;

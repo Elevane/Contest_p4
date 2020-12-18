@@ -183,25 +183,37 @@ class Puissance4 {
 
     if (this.winner || this.winner === 0) {
       if(this.winner){
-        var wer = this.winner == 1 ? "IA" : $('#p1').text();
+        if(this.ai){
+          var wer = this.winner == 1 ? "IA" : $('#p1').text(); // winner
+          console.log('solo');
+        }else{
+          var wer = this.winner == 1 ? $('#p2').text() : $('#p1').text(); // winner
+          console.log('multi');
+        }
+        
         var modalwin = new tingle.modal({
           footer: true,
           stickyFooter: false,
           closeMethods: ['overlay', 'button', 'escape'],
           cssClass: ['custom-class-1', 'custom-class-2'],
-
         });
-        modalwin.setContent('<h3>'+ wer +' win</h3><p> You will be redirected to Score page.</p>');
+        modalwin.setContent('<h3>'+ wer +' win</h3>');
         modalwin.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
-          var path = "/add_scores/" + wer;
-          console.log(path);
-          window.location.replace(path);
+          $.ajax({
+            url: "/add_scores",
+            data: {
+              "name" : wer 
+            }
+          }).done(function(){
+            console.log("oui");
+          })
+          
           modalwin.close();
       });
         modalwin.open();
 
         }
-      $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
+      
       $('table#puissance4').off('click')
       $('button#reset-grid').show();
     }
