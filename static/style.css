@@ -27,7 +27,7 @@ h3{
     font-size: 30px;
 }
 
-#pname{
+#pname, #pname1, #pname2{
     margin-top: 30px;
     padding: 10px;
 }
@@ -82,7 +82,7 @@ ul{
     justify-content: space-around;
 }
 
-#single div{
+#single div, #multiplayer div{
     width: 30%;
     display: flex;
     justify-content: space-around;
@@ -219,19 +219,7 @@ ul li a:hover, button:hover{
     padding: 5px;
     background-color: #fcfcfc;
 }
-#ia span{
-   height: 20px;
-   width: 20px;
-   border-radius: 20px;
-    background-color: #FF0000;
-}
 
-#p1article span{
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-     background-color: #FFCC00;
-}
 #puissance4 td {
     height: 5px;
     width: 5px;

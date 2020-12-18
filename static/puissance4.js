@@ -82,9 +82,7 @@ class Puissance4 {
       const selected_col = parseInt(event.target.attributes.col.value)
       let reached_row = this.getMouvement(selected_col)
       if (reached_row === null) {
-        $('h3.full-column').show();
       } else {
-        $('h3.full-column').hide();
         // On vérifie si une ligne a été complété
         this.determineWinner(reached_row, selected_col)
 
@@ -186,7 +184,7 @@ class Puissance4 {
 
     if (this.winner || this.winner === 0) {
       if(this.winner){
-        var wer = this.winner == 1 ? "IA" : $('#p1').text(); // winner
+        var wer = this.winner == 1 ? $('#p2').text() : $('#p1').text(); // winner
         var modalwin = new tingle.modal({
           footer: true,
           stickyFooter: false,
@@ -207,7 +205,7 @@ class Puissance4 {
           modalwin.close();
       });
         modalwin.open();
-        
+
         }
       $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
       $('table#puissance4').off('click')
@@ -324,9 +322,16 @@ class Puissance4 {
 }
 
 let p4;
-
-  // Si l'objet n'a pas été crée
-  if (!p4) {
-    p4 = new Puissance4(true);
+// Si l'objet n'a pas été crée
+if (!p4) {
+  // On détermine le mode de jeu en fonction de l'url
+  switch (window.location.pathname) {
+    case "/single":
+      p4 = new Puissance4(true);
+      break;
+    case '/multiplayer':
+      p4 = new Puissance4(false);
+      break;
   }
+}
 
