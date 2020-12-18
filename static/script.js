@@ -1,19 +1,6 @@
 
 
-/*
-$('#multipla').on('ready', function(){
-    // changemment du nom du player en mode solo
-    var player1 = prompt("Player 1 please enter your name : ");
-    while(player1 == null || player1 == ""){
-        player1 =prompt("Player please enter a valid name :")
-    }
-    $('#p1').text(player1);
-    var player2 = prompt("Player 2 please enter your name : ");
-    while(player2 == null || player2 == ""){
-        player1 =prompt("Player please enter a valid name :")
-    }
-    $('#p2').text(player2);
-});**/
+
 
 
 
@@ -49,4 +36,71 @@ getNames.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
 
 if(window.location.pathname == "/single"){
     getNames.open();
+};
+
+
+
+
+
+var getNamesMulti1 = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['button'],
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    beforeClose: function() {
+        $('#p1').text($('#pname1').val());
+        
+        return true; 
+    }
+});
+// add a button
+getNamesMulti1.setContent("<h3>Select the player 1 name</h3><input id='pname1' type='text'></input>");
+
+getNamesMulti1.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
+    if($('#pname1').val() == ""){
+        var warning = new tingle.modal({footer: true,
+            stickyFooter: false,
+            closeMethods: ['button'],
+            cssClass: ['custom-class-1', 'custom-class-2'],}).setContent("<h3>Choose a name</h3>");
+            warning.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
+                warning.close();
+            });
+            warning.open();
+    }else{
+        getNamesMulti1.close();
+    }
+});
+
+var getNamesMulti2 = new tingle.modal({
+    footer: true,
+    stickyFooter: false,
+    closeMethods: ['button'],
+    cssClass: ['custom-class-1', 'custom-class-2'],
+    beforeClose: function() {
+        $('#p2').text($('#pname2').val());
+        return true; 
+    }
+});
+// add a button
+getNamesMulti2.setContent("<h3>Select the player 2 name</h3><input id='pname2' type='text'></input>");
+
+getNamesMulti2.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
+    if($('#pname2').val() == ""){
+        var warning = new tingle.modal({footer: true,
+            stickyFooter: false,
+            closeMethods: ['button'],
+            cssClass: ['custom-class-1', 'custom-class-2'],}).setContent("<h3>Choose a name</h3>");
+            warning.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
+                warning.close();
+            });
+            warning.open();
+    }else{
+        getNamesMulti2.close();
+    }
+});
+
+
+if(window.location.pathname == "/multiplayer"){
+    getNamesMulti1.open();
+    getNamesMulti2.open();
 };

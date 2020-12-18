@@ -187,19 +187,24 @@ class Puissance4 {
 
     if (this.winner || this.winner === 0) {
       if(this.winner){
-        var wer = this.winner == 1 ? "IA" : $('#p1').text();
+        var wer = this.winner == 1 ? $('#p2').text() : $('#p1').text(); // winner
         var modalwin = new tingle.modal({
           footer: true,
           stickyFooter: false,
           closeMethods: ['overlay', 'button', 'escape'],
           cssClass: ['custom-class-1', 'custom-class-2'],
-
         });
-        modalwin.setContent('<h3>'+ wer +' win</h3><p> You will be redirected to Score page.</p>');
+        modalwin.setContent('<h3>'+ wer +' win</h3>');
         modalwin.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
-          var path = "/add_scores/" + wer;
-          console.log(path);
-          window.location.replace(path);
+          $.ajax({
+            url: "/add_scores",
+            data: {
+              "name" : wer 
+            }
+          }).done(function(){
+            console.log("oui");
+          })
+          
           modalwin.close();
       });
         modalwin.open();
