@@ -23,7 +23,14 @@ h2{
     text-transform: capitalize;
 
 }
+h3{
+    font-size: 30px;
+}
 
+#pname{
+    margin-top: 30px;
+    padding: 10px;
+}
 *{
     margin: 0;
     padding: 0;
@@ -101,6 +108,7 @@ ul{
     height: 80%;
     background-color: #fcfcfc;
     box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
+    
 }
 #scores table{
     margin-top: 10px;
@@ -109,6 +117,7 @@ ul{
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow:auto;
 
 }
 #scores thead{
@@ -206,9 +215,17 @@ ul li a:hover, button:hover{
     background-color: #fcfcfc;
 }
 #ia span{
-   height: 50px;
-   width: 50px;
+   height: 20px;
+   width: 20px;
+   border-radius: 20px;
     background-color: #FF0000;
+}
+
+#p1article span{
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+     background-color: #FFCC00;
 }
 #puissance4 td {
     height: 5px;
@@ -245,4 +262,14 @@ span.player-1 {
 span.player-2 {
     background-color: #FFCC00;
     box-shadow: 0px 3px 6px rgb(255, 204,0, 0.30);
+}
+
+.tingle-modal-box__content, .tingle-modal-box__footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tingle-modal__close{
+    display: none;
 }

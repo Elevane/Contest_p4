@@ -1,6 +1,7 @@
 class Puissance4 {
 
   constructor(ai = false) {
+    // On détecte si le joueur joue seul
     this.ai = ai;
 
     // On met en place le nombre de lignes et de colonnes de la grille
@@ -33,9 +34,11 @@ class Puissance4 {
 
     this.setGrid();
 
+    // On teste si l'IA commence
     this.ai ? this.playAI() : null
   }
 
+  // Construit la grille
   setGrid() {
     let tabContent = ''
     for (let r = this.rows - 1; r >= 0; r--) {
@@ -49,6 +52,7 @@ class Puissance4 {
     $('table#puissance4').empty().append(tabContent)
   }
 
+  // Remet la grille à zéro
   resetGrid() {
     $('a#main-title').text('Puissance 4')
     $('button#reset-grid').hide();
@@ -72,6 +76,7 @@ class Puissance4 {
     this.ai ? this.playAI() : null
   }
 
+  // Détection du clic sur une des cellules du tableau
   handleClick(event) {
     if (event.target.attributes.col && !this.winner) {
       const selected_col = parseInt(event.target.attributes.col.value)
@@ -88,26 +93,58 @@ class Puissance4 {
     }
   }
 
+  // Corps de l'IA qui cherche les meilleurs coups puis joue automatiquement
   playAI() {
+    // Si c'est au tour de l'IA
     if ((this.turn - this.starter) % 2 === 0) {
 
-      let reached_row = null;
-      let random;
-      while (reached_row === null) {
-        random = Math.floor(Math.random() * this.cols)
-        reached_row = this.getMouvement(random)
+      let best_values = Array(this.cols).fill(0)
+      let best_values_ad = Array(this.cols).fill(0)
+      for (let c = 0; c < this.cols; c++) {
+        for(let r = 0; r < this.rows; r++) {
+          if (this.grid[r][c] === null) {
+            // On récupère les meilleurs valeurs pour l'IA et le joueur
+            best_values_ad = this.checkLinesAI(r, c, best_values_ad, 2)
+            best_values = this.checkLinesAI(r, c, best_values, 1)
+            break;
+          }
+        }
       }
-      this.determineWinner(reached_row, random)
+
+      let selected_col;
+      // Si l'utilisateur a au moins une façon de gagner, alors l'IA le bloque
+      if (best_values_ad.includes(4)) {
+        let max_values_ad = this.getMaxIndexes(best_values_ad)
+        selected_col = max_values_ad[Math.floor(Math.random() * max_values_ad.length)]
+      }
+      // Si l'IA peut gagner, alors elle préferera utiliser cette opportunité au lieu de bloquer
+      // OU
+      // Si il n'y a pas d'opportunité directe de victoire, on prend un des colonnes avec le plus de valeurs
+      if (best_values.includes(4) || (!(best_values_ad.includes(4)) && !(best_values.includes(4)))) {
+        let max_values = this.getMaxIndexes(best_values)
+        selected_col = max_values[Math.floor(Math.random() * max_values.length)]
+      }
+
+      let reached_row = this.getMouvement(selected_col)
+      if (reached_row !== null) {
+        this.determineWinner(reached_row, selected_col)
+      }
     }
   }
 
+  // Rétablit le clic utilisateur sur la grille
   recoverClick() {
-    self = this;
-    $('table#puissance4').on('click', function (event) {
-      self.handleClick(event);
-    })
+    // Si la table Puissance 4 n'a plus d'evenement onClick()
+    if (!($._data($("table#puissance4")[0], "events"))) {
+      self = this;
+      // On lui remet
+      $('table#puissance4').on('click', function (event) {
+        self.handleClick(event);
+      })
+    }
   }
 
+  // Vérifie si l'ajout d'une pièece sur une colonne est posssible
   getMouvement(col) {
     let reached_row = null;
     for(let r = 0; r < this.rows; r++) {
@@ -123,6 +160,7 @@ class Puissance4 {
     return null;
   }
 
+  // Place la pièece
   placePiece(row, col) {
     const player = (this.turn - this.starter) % 2 + 1
     this.grid[row][col] = player;
@@ -133,6 +171,7 @@ class Puissance4 {
     $('span#player-coin-' + player).hide()
   }
 
+  // Détermine si un des deux joueurs a complété une ligne
   determineWinner(row, col) {
     let result = this.checkLines(row, col)
     if (result) {
@@ -145,12 +184,32 @@ class Puissance4 {
     this.setGrid();
 
     if (this.winner || this.winner === 0) {
+      if(this.winner){
+        var wer = this.winner == 1 ? "IA" : $('#p1').text();
+        var modalwin = new tingle.modal({
+          footer: true,
+          stickyFooter: false,
+          closeMethods: ['overlay', 'button', 'escape'],
+          cssClass: ['custom-class-1', 'custom-class-2'],
+          
+        });
+        modalwin.setContent('<h3>'+ wer +' win</h3><p> You will be redirected to Score page.</p>');
+        modalwin.addFooterBtn('Ok', 'tingle-btn tingle-btn--primary', function() {
+          var path = "/add_scores/" + wer;
+          console.log(path);
+          window.location.replace(path);
+          modalwin.close();
+      });
+        modalwin.open();
+        
+        }
       $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
       $('table#puissance4').off('click')
       $('button#reset-grid').show();
     }
   }
 
+  // Vérifie toutes les lignes à partir de la dernière pièce ajoutée pour savoir si une ligne est complétée
   checkLines(row, col) {
     // On récupère le joueur qui a joué au tour précédent (le joueur qui vient juste de se faire valider son placement)
     // Voir placePiece() où on incrémente les tours avant d'effectuer plus tard cette fonction
@@ -194,8 +253,74 @@ class Puissance4 {
 
     return false;
   }
+
+  // Evalue les meilleurs coups pour l'IA (fait à partir de la base de checkLines)
+  checkLinesAI(row, col, best_values, player) {
+    let count = 0;
+    for (let c = 0; c < this.cols; c++) {
+      if (col === c) {
+        count++;
+      } else {
+        (this.grid[row][c] === player) ? count++ : count = 0;
+      }
+      (best_values[col] < count) ? best_values[col] = count : null;
+    }
+
+    count = 0;
+    for (let r = 0; r < this.rows; r++) {
+      if (row === r && col) {
+        count++;
+      } else {
+        (this.grid[r][col] === player) ? count++ : count = 0;
+      }
+      (best_values[col] < count) ? best_values[col] = count : null;
+    }
+
+    let baseRow = row - col > 0 ? row - col : 0;
+    let baseCol = col - row;
+    for (let d = baseRow; d < this.rows; d++) {
+      if (row === d && col === d + baseCol) {
+        count++;
+      } else {
+        (this.grid[d][d + baseCol] === player) ? count++ : count = 0;
+      }
+      (best_values[col] < count) ? best_values[col] = count : null;
+    }
+
+    count = 0;
+    baseRow = row + col < this.rows - 1 ? row + col : this.rows - 1;
+    baseCol = col + row;
+    for (let d = baseRow; d >= 0; d--) {
+      if (row === d && col === baseCol - d) {
+        count++;
+      } else {
+        (this.grid[d][baseCol - d] === player) ? count++ : count = 0
+      }
+      (best_values[col] < count) ? best_values[col] = count : null;
+    }
+    return best_values
+  }
+
+  // Récupère les valeurs les plus hautes dans un tableau
+  getMaxIndexes(array) {
+    var max = -Infinity;
+    var maxIndices = [];
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === max) {
+        maxIndices.push(i);
+      } else if (array[i] > max) {
+        maxIndices = [i];
+        max = array[i];
+      }
+    }
+    return maxIndices;
+  }
 }
 
+let p4;
 
-  let p4 = new Puissance4(true);
+  // Si l'objet n'a pas été crée
+  if (!p4) {
+    p4 = new Puissance4(true);
+  }
 

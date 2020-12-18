@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import json
 import os
 from datetime import datetime, date
@@ -50,6 +50,7 @@ def return_scores():
     return sortedScores
 
 
+@app.route("/add_scores/<name>")
 def add_scores(name):
     with open('data.json') as json_file:
         data = json.load(json_file)
@@ -84,7 +85,7 @@ def add_scores(name):
     if os.path.isfile("temp.json"):
         os.rename("temp.json", "data.json")
         
-    return return_scores()
+    return redirect("/scores")
 
 
 #check if the player exist based on his name
