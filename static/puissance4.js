@@ -13,7 +13,7 @@ class Puissance4 {
 
     // On désigne celui qui commence la partie
     this.starter = Math.round(Math.random());
-    const player = (this.turn - this.starter) % 2 + 1
+    const player = ((this.turn - this.starter) % 2 + 1)
     $('span#player-coin-' + player).show();
 
     // On met en place une variable qui stockera l'utilisateur gagnant
@@ -40,7 +40,6 @@ class Puissance4 {
 
   // Construit la grille
   setGrid() {
-    console.log('appel')
     let tabContent = ''
     for (let r = this.rows - 1; r >= 0; r--) {
       tabContent += '<tr>'
@@ -123,9 +122,8 @@ class Puissance4 {
         let max_values = this.getMaxIndexes(best_values)
         selected_col = max_values[Math.floor(Math.random() * max_values.length)]
       }
-
       let reached_row = this.getMouvement(selected_col)
-      console.log((this.turn - this.starter) % 2 + 1)
+
       if (reached_row !== null) {
         this.determineWinner(reached_row, selected_col)
       }
@@ -162,15 +160,13 @@ class Puissance4 {
 
   // Place la pièece
   placePiece(row, col) {
-    const player = parseInt((this.turn - this.starter) % 2 + 1).toString()
+    const player = ((this.turn - this.starter) % 2 + 1)
     this.grid[row][col] = player;
     this.turn++;
 
     // On indique quel utilisateur doit jouer avec des éléments graphiques
-    console.log('test', player)
     $("span[id^='player-coin-']").show()
     $('span#player-coin-' + player).hide()
-    console.log('test2')
   }
 
   // Détermine si un des deux joueurs a complété une ligne
