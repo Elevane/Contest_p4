@@ -2,25 +2,26 @@
 {% block content %}
 <section id="single">
 
+    <h3 class="full-column" style="display: none;">Colonne pleine !</h3>
+
     <article id="jeu">
         <article>
-            <article id="p1article">
-                <h2 id="p1"></h2>
-                <span></span>
-            </article>
+            <h2 id="p1">player 1</h2>
+            <span id="player-coin-1" class="player-1"></span>
         </article>
 
-        <table id="puissance4">
+        <table id="puissance4"></table>
 
-        </table>
         <article>
-            <article id="ia">
-                <h2 >IA </h2>
-                <span></span>
-            </article>
+            <h2 id="p2">IA</h2>
+            <span id="player-coin-2" class="player-2"></span>
         </article>
+
     </article>
-    <a class="button" href="{{ '/' }}">Abandon</a>
+    <div>
+        <button class="button"><a href="{{ '/'}}">Abandon</a></button>
+        <button class="reset button" id="reset-grid" style="display: none">Rejouer</button>
+    </div>
  </section>
 
 

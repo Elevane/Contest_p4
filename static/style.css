@@ -82,7 +82,12 @@ ul{
     justify-content: space-around;
 }
 
-
+#single div{
+    width: 30%;
+    display: flex;
+    justify-content: space-around;
+    
+}
 #jeu article{
     width: 10%;
     display: flex;
@@ -247,21 +252,19 @@ ul li a:hover, button:hover{
     box-shadow: 0px 3px 6px rgb(255, 204,0, 0.30);
 }
 span.player-1, span.player-2 {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    border-radius: 15px;
+    width: 15px;
+    height: 15px;
     margin: 20px 0;
     display: none;
 }
 
 span.player-1 {
-    background: #FF0000;
-    box-shadow: 0px 3px 6px rgb(255, 0,0, 0.30);
+    background: #FFCC00;
 }
 
 span.player-2 {
-    background-color: #FFCC00;
-    box-shadow: 0px 3px 6px rgb(255, 204,0, 0.30);
+    background-color:  #FF0000;  
 }
 
 .tingle-modal-box__content, .tingle-modal-box__footer{
