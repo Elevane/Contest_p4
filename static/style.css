@@ -108,7 +108,7 @@ ul{
     height: 80%;
     background-color: #fcfcfc;
     box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
-    
+
 }
 #scores table{
     margin-top: 10px;
@@ -145,23 +145,6 @@ ul{
     color: #545454;
     text-decoration: none;
     font-size: 18px;
-}
-
-#jeu #puissance4 {
-    height: 100%;
-    width: 50%;
-    background-color: #fcfcfc;
-    box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
-}
-
-#jeu #puissance4   tr {
-    width: 100%;
-    height: 16.6%;
-}
-
-
-#jeu #puissance4  td {
-    box-shadow: 0px 3px 6px rgb(0, 0,0, 0.30);
 }
 
 #credits a{
@@ -209,34 +192,41 @@ ul li a:hover, button:hover{
     box-shadow: 0px 3px 10px  rgb(0, 0, 0, 0.60) ;
 }
 
-#puissance4 {
-    width: 20%;
-    padding: 5px;
+
+#jeu #puissance4 {
+    height: 100%;
+    width: 50%;
     background-color: #fcfcfc;
-}
-#ia span{
-   height: 20px;
-   width: 20px;
-   border-radius: 20px;
-    background-color: #FF0000;
+    box-shadow: 0px 3px 6px rgb(0, 0, 0, 0.30);
 }
 
-#p1article span{
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
-     background-color: #FFCC00;
+#jeu #puissance4 tr {
+    width: 100%;
+    height: 16.6%;
 }
-#puissance4 td {
-    height: 5px;
-    width: 5px;
+
+
+#jeu #puissance4 td {
+    box-shadow: 0px 3px 6px rgb(0, 0,0, 0.30);
+}
+
+#puissance4 tr {
+    padding: 5px;
+    background-color: #fcfcfc;
+    border-spacing:0; /* Removes the cell spacing via CSS */
+    border-collapse: collapse;  /* Optional - if you don't want to have double border where cells touch */
+}
+#puissance4 tr td {
+    height: 2cm;
+    width: 2cm;
     margin: 0px;
     padding: 0px;
     border: 2px transparent inset;
-    border-radius: 5px;
+    border-radius: 2cm;
     background-color: white;
     cursor: pointer;
 }
+
 #puissance4 td.player1 {
     background-color: #FF0000;
     box-shadow: 0px 3px 6px rgb(255, 0,0, 0.30);
