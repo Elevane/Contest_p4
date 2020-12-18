@@ -84,12 +84,13 @@ ul{
 }
 
 #single div, #multiplayer div{
-    width: 30%;
+    width: 50%;
     display: flex;
     justify-content: space-around;
     
 }
-#jeu article, {
+
+#jeu article{
     width: 10%;
     display: flex;
     flex-direction: column;
