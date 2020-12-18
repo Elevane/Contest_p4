@@ -50,8 +50,9 @@ def return_scores():
     return sortedScores
 
 
-@app.route("/add_scores/<name>")
-def add_scores(name):
+@app.route("/add_scores")
+def add_scores():
+    name = request.args.get('name')
     with open('data.json') as json_file:
         data = json.load(json_file)
         if os.path.isfile("temp.json"):

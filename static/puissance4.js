@@ -183,7 +183,14 @@ class Puissance4 {
 
     if (this.winner || this.winner === 0) {
       if(this.winner){
-        var wer = this.winner == 1 ? $('#p2').text() : $('#p1').text(); // winner
+        if(this.ai){
+          var wer = this.winner == 1 ? "IA" : $('#p1').text(); // winner
+          console.log('solo');
+        }else{
+          var wer = this.winner == 1 ? $('#p2').text() : $('#p1').text(); // winner
+          console.log('multi');
+        }
+        
         var modalwin = new tingle.modal({
           footer: true,
           stickyFooter: false,
@@ -206,7 +213,7 @@ class Puissance4 {
         modalwin.open();
 
         }
-      $('a#main-title').text(this.winner !== 0 ? `Victoire de Joueur ${this.winner} !` : `Egalite !`)
+      
       $('table#puissance4').off('click')
       $('button#reset-grid').show();
     }
